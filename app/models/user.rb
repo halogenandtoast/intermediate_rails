@@ -25,6 +25,10 @@ class User < ActiveRecord::Base
     followed_users.destroy(user)
   end
 
+  def can_follow?(user)
+    user.id != id
+  end
+
   def following?(user)
     followed_users.where(id: user.id).exists?
   end

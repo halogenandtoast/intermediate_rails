@@ -7,6 +7,14 @@ class ShoutsController < ApplicationController
   private
 
   def shout_params
-    params.require(:shout).permit(:body)
+    { content: build_content }
+  end
+
+  def build_content
+    params[:shout][:content_type].constantize.new(content_params)
+  end
+
+  def content_params
+    params[:shout][:content].permit!
   end
 end
