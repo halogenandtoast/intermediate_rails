@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309154916) do
+ActiveRecord::Schema.define(version: 20150309182001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "following_relationships", force: :cascade do |t|
+    t.integer  "follower_id",      null: false
+    t.integer  "followed_user_id", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "following_relationships", ["followed_user_id"], name: "index_following_relationships_on_followed_user_id", using: :btree
+  add_index "following_relationships", ["follower_id"], name: "index_following_relationships_on_follower_id", using: :btree
 
   create_table "shouts", force: :cascade do |t|
     t.string   "body",       null: false
@@ -36,5 +46,7 @@ ActiveRecord::Schema.define(version: 20150309154916) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
+  add_foreign_key "following_relationships", "users", column: "followed_user_id"
+  add_foreign_key "following_relationships", "users", column: "follower_id"
   add_foreign_key "shouts", "users"
 end
