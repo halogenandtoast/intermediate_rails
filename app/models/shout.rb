@@ -9,13 +9,16 @@ class Shout < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
   belongs_to :user
-  belongs_to :content, polymorphic: true
+  belongs_to :content, polymorphic: true, dependent: :destroy
 
   delegate :username, to: :user
 
-  # This is the problem
+  def self.reshouts
+    where(content_type: "Reshout")
+  end
+
   def self.reshouts_for(shout)
-    where(content_type: "Reshout", id: shout.id)
+    reshouts.joins("JOIN reshouts ON reshouts.shout_id = #{shout.id}")
   end
 
   def self.dashboard_types
@@ -24,5 +27,9 @@ class Shout < ActiveRecord::Base
 
   def new_reshout
     Reshout.new(shout: self)
+  end
+
+  def reshouts
+    self.class.reshouts_for(self)
   end
 end
