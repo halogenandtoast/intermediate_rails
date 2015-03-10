@@ -34,10 +34,19 @@ class User < ActiveRecord::Base
   end
 
   def reshouted?(shout)
-    shouts.where(content_type: "ReShout", id: shout.id).exists?
+    shouts.reshouts_for(shout).exists?
   end
 
   def owns?(object)
     object.user_id == id
+  end
+
+  def reshout(shout)
+    reshout = shout.new_reshout
+    shouts.create(content: reshout)
+  end
+
+  def undo_reshout(shout)
+    # shouts.joins(:content).where(content_type: "Reshout", shout_id: shout.id)
   end
 end
