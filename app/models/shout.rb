@@ -22,7 +22,7 @@ class Shout < ActiveRecord::Base
   end
 
   def self.reshouts_for(shout)
-    reshouts.joins("JOIN reshouts ON reshouts.shout_id = #{shout.id}")
+    reshouts.joins("INNER JOIN reshouts ON reshouts.shout_id = #{shout.id}")
   end
 
   def self.dashboard_types
