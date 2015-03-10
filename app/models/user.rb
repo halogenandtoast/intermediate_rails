@@ -32,4 +32,12 @@ class User < ActiveRecord::Base
   def following?(user)
     followed_users.where(id: user.id).exists?
   end
+
+  def reshouted?(shout)
+    shouts.where(content_type: "ReShout", id: shout.id).exists?
+  end
+
+  def owns?(object)
+    object.user_id == id
+  end
 end

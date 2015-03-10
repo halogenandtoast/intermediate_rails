@@ -2,4 +2,5 @@
   <%= link_to shout.username, shout.user %>
   <%= time_ago_in_words shout.created_at %> ago
   <%= render shout.content %>
+  <%= reshout_button(shout) %>
 <% end %>

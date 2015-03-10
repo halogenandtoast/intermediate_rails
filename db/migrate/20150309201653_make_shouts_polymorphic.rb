@@ -9,6 +9,15 @@ class MakeShoutsPolymorphic < ActiveRecord::Migration
     add_column :shouts, :content_type, :string
     add_column :shouts, :content_id, :integer
 
+    convert_shouts_to_text_shouts
+
+    remove_column :shouts, :body, :string
+    add_index :shouts, [:content_type, :content_id]
+  end
+
+  private
+
+  def convert_shouts_to_text_shouts
     Shout.find_each do |shout|
       reversible do |dir|
         dir.up do
@@ -17,12 +26,10 @@ class MakeShoutsPolymorphic < ActiveRecord::Migration
         end
 
         dir.down do
+          shout.reload
           shout.update(body: shout.content.body)
         end
       end
     end
-
-    remove_column :shouts, :body, :string
-    add_index :shouts, [:content_type, :content_id]
   end
 end
