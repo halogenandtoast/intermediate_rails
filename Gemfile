@@ -11,8 +11,10 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'monban'
 gem 'paperclip'
+gem 'sunspot_rails'
 
 group :development, :test do
+  gem "sunspot_solr"
   gem 'quiet_assets'
   gem 'monban-generators'
   gem 'byebug'

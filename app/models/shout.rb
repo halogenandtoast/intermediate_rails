@@ -6,6 +6,10 @@ class Shout < ActiveRecord::Base
 
   CONTENT_TYPES = DASHBOARD_TYPES
 
+  searchable do
+    text(:content) { content.index_content }
+  end
+
   default_scope { order(created_at: :desc) }
 
   belongs_to :user

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
 
   root "welcome#index"
+  resource :search, only: [:show]
 
   resources :shouts, only: [:create] do
     member do
