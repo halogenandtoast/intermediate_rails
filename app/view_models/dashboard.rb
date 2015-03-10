@@ -3,16 +3,15 @@ class Dashboard
     @user = user
   end
 
-  def shouts
-    Shout.
-      dashboard_types.
-      where(user_id: timeline_ids)
+  def feed(feed_class = Feed)
+    scope = Shout.without_reshouts_for(user)
+    feed_class.new(feed_ids, scope)
   end
 
   private
   attr_reader :user
 
-  def timeline_ids
+  def feed_ids
     user.followed_user_ids + [user.id]
   end
 end

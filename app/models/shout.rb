@@ -17,6 +17,10 @@ class Shout < ActiveRecord::Base
     where(content_type: "Reshout")
   end
 
+  def self.without_reshouts_for(user)
+    where("NOT (content_type = 'Reshout' AND user_id = #{user.id})")
+  end
+
   def self.reshouts_for(shout)
     reshouts.joins("JOIN reshouts ON reshouts.shout_id = #{shout.id}")
   end
