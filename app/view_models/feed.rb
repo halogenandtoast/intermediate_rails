@@ -5,7 +5,7 @@ class Feed
   end
 
   def shouts
-    scope.where(user_id: user_ids)
+    scope.where(user_id: user_ids).includes(:content)
   end
 
   def to_partial_path

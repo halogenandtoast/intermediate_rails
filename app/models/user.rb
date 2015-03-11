@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :shouts
+  has_many :shouts, inverse_of: :user
 
   has_many :followed_user_relationships,
     foreign_key: :follower_id,

@@ -26,7 +26,8 @@ class Shout < ActiveRecord::Base
   end
 
   def self.reshouts_for(shout)
-    reshouts.joins("INNER JOIN reshouts ON reshouts.shout_id = #{shout.id}")
+    content = Reshout.for_shout(shout)
+    reshouts.where(content_id: content)
   end
 
   def self.dashboard_types
